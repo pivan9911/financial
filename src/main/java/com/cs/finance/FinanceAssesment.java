@@ -138,7 +138,7 @@ public class FinanceAssesment {
         }
     };
 
-    public void multipierJPA() throws IOException {
+    public void multiplierJPA() throws IOException {
 
         repository.save(new MultiplierEntity("INSTRUMENT1", 2.0D));
         repository.save(new MultiplierEntity("INSTRUMENT2", 1.5D));
