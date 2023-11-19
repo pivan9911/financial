@@ -98,6 +98,9 @@ public class FinanceAssesment {
                 .distinct()
                 .collect(Collectors.toList());
 
+        if (largeInstruments.size() == 0) {
+            log.info("No instruments larger than INSTRUMENT3!    latestEntries456()");
+        }
         for ( String instr: largeInstruments) {
             List<InstrumentRecord> recordList0 = Files.lines(this.pp1)
                     .map(FinanceAssesment::toInstrument)
@@ -138,14 +141,25 @@ public class FinanceAssesment {
         }
     };
 
+    /* Call rebuildMultiplierMap(), at some suitable frequency,
+    *  Thread-safety, needs be ensured
+    */
+    private void rebuildMultiplierMap() {
+        Map<String,Double> newMultiplierMap = new HashMap<>();
+
+        repository.findAll().forEach(mul -> {
+            newMultiplierMap.put(mul.getName(), mul.getMultiplier());
+        });
+
+        multiplierMap = newMultiplierMap;
+    }
+
     public void multiplierJPA() throws IOException {
 
         repository.save(new MultiplierEntity("INSTRUMENT1", 2.0D));
         repository.save(new MultiplierEntity("INSTRUMENT2", 1.5D));
 
-        repository.findAll().forEach(mul -> {
-            multiplierMap.put(mul.getName(), mul.getMultiplier());
-        });
+        rebuildMultiplierMap();
 
         Double multiplierMean = Files.lines(this.pp1)
                 .map(FinanceAssesment::toInstrument)
@@ -154,7 +168,7 @@ public class FinanceAssesment {
                 .map( i -> i.price())
                 .collect(Collectors.averagingDouble(Double::doubleValue));
 
-        log.info( "INSTRUMENT1  Multiplier Mean:" + multiplierMean);
+        log.info( "INSTRUMENT1  Multiplier Mean:" + multiplierMean +  "   multiplierJPA()");
 
     }
 }
