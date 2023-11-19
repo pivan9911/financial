@@ -50,7 +50,7 @@ public class FinanceAssesment {
                 .map(i -> i.price())
                 .collect(Collectors.averagingDouble(Double::doubleValue));
 
-        log.info( "INSTRUMENT1  Mean:" + doubleMean);
+        log.info( "INSTRUMENT1  Mean:" + doubleMean + "   instrument1Mean()");
 
     }
 
@@ -66,7 +66,7 @@ public class FinanceAssesment {
                 .map(i -> i.price())
                 .collect(Collectors.averagingDouble(Double::doubleValue));
 
-        log.info( "INSTRUMENT2  November 2014  Mean:" + november2014Mean);
+        log.info( "INSTRUMENT2  November 2014  Mean:" + november2014Mean + "   instrument2NovemberMean()");
     }
 
 
@@ -83,8 +83,8 @@ public class FinanceAssesment {
                 .min( (i,j) -> Double.compare(i,j));
 
         november2014Min.ifPresentOrElse(
-                (val)	-> log.info( "INSTRUMENT3  November 2014  Minimum:" + val),
-                () -> log.info( "INSTRUMENT3  November 2014  Minimum: NONE" ));
+                (val)	-> log.info( "INSTRUMENT3  November 2014  Minimum:" + val + "   instrument3NovemberMinimum()"),
+                () -> log.info( "INSTRUMENT3  November 2014  Minimum: NONE  instrument3NovemberMinimum()" ));
     }
 
 
@@ -105,7 +105,7 @@ public class FinanceAssesment {
                     .map(List::of)
                     .reduce(List.of(), FinanceAssesment::latestReducer);
 
-            log.info("Instrument:" + instr + " latest entries");
+            log.info("Instrument:" + instr + " latest entries    latestEntries456()");
             recordList0.stream().forEach( (i) -> log.info( "  " + i.name() + " " + i.date().format(dateTimeFormat) + " " + i.price()));
         }
 
